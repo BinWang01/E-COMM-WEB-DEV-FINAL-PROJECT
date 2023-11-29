@@ -1,0 +1,13 @@
+{% extends "admin/change_list.html" %}
+
+{% block object-tools %}
+<ul class="object-tools">
+    {{ block.super }}
+    <li>
+        <form method="post" action="{% url 'admin:data_customcollege_custom_upload' %}">
+            {% csrf_token %}
+            <input type="submit" value="Custom Upload" class="addlink">
+        </form>
+    </li>
+</ul>
+{% endblock %}

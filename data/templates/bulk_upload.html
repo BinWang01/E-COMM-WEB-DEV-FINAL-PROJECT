@@ -1,0 +1,53 @@
+{% extends 'base.html' %}
+
+{% block content %}
+<div class="h-100 d-flex align-items-center justify-content-center">
+    <div>
+        <div class="row mb-5">
+            <div class="col-4">
+                <h4 class="mb-3">College</h4>
+                <form method="post" action="/colleges/import" enctype="multipart/form-data">
+                    {% csrf_token %}
+                    <input class="form-control" type="file" name="csv_file" required>
+                    <button class="btn btn-primary mt-3">Import</button>
+                </form>
+            </div>
+            <div class="col-4">
+                <h4 class="mb-3">Department</h4>
+                <form method="post" action="/departments/import" enctype="multipart/form-data">
+                    {% csrf_token %}
+                    <input class="form-control" type="file" name="csv_file" required>
+                    <button class="btn btn-primary mt-3">Import</button>
+                </form>
+            </div>
+            <div class="col-4">
+                <h4 class="mb-3">Degree</h4>
+                <form method="post" action="/degrees/import" enctype="multipart/form-data">
+                    {% csrf_token %}
+                    <input class="form-control" type="file" name="csv_file" required>
+                    <button class="btn btn-primary mt-3">Import</button>
+                </form>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-4">
+                <h4 class="mb-3">Course</h4>
+                <form method="post" action="/courses/import" enctype="multipart/form-data">
+                    {% csrf_token %}
+                    <input class="form-control" type="file" name="csv_file" required>
+                    <button class="btn btn-primary mt-3">Import</button>
+                </form>
+            </div>
+            <div class="col-4">
+                <h4 class="mb-3">Degree Course</h4>
+                <form method="post" action="/degreecourses/import" enctype="multipart/form-data">
+                    {% csrf_token %}
+                    <input class="form-control" type="file" name="csv_file" required>
+                    <button class="btn btn-primary mt-3">Import</button>
+                </form>
+            </div>
+        </div>
+    </div>
+
+</div>
+{% endblock %}

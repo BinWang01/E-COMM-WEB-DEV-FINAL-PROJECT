@@ -1,0 +1,30 @@
+{% extends 'base.html' %}
+
+{% block content %}
+<div class="container py-5">
+        <h1 class="display-5 text-center">Manage Content</h1>
+        {% autoescape off %}
+        {{ data }}
+        {% endautoescape %}
+        <hr>
+        <div class="row mb-5">
+                <div class="col-4"><a class="btn btn-primary btn-lg"
+                                href="/colleges">Colleges</a></div>
+                <div class="col-4"><a class="btn btn-primary btn-lg"
+                                href="/departments">Departments</a></div>
+                <div class="col-4"><a class="btn btn-primary btn-lg"
+                                href="/degrees">Degrees</a></div>
+        </div>
+        <div class="row">
+                <div class="col-4"><a class="btn btn-primary btn-lg"
+                                href="/courses">Courses</a></div>
+                <div class="col-4"><a class="btn btn-primary btn-lg"
+                                href="/degreecourses">Degree Courses</a></div>
+        </div>
+        <hr>
+        <br>
+        <a class="btn btn-primary btn-lg"
+                href="/imageupload">Upload Homepage Background Image</a>
+</div>
+
+{% endblock %}

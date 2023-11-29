@@ -1,0 +1,47 @@
+{% extends 'base.html' %}
+
+{% block content %}
+<div class="container pt-5">
+<h1 class="display-6 mb-4">Course List</h1>
+<a href="/courses/new" class="btn btn-primary mb-3">Create Course</a>
+<form method="post" action="/courses/import" enctype="multipart/form-data" class="my-3">
+    {% csrf_token %}
+    <div class="row">
+        <div class="col-10">
+            <input class="form-control" type="file" id="csv_file" name="csv_file">
+        </div>
+        <div class="col-2">
+            <button class="btn btn-info mb-3">Import Courses</button>
+        </div>
+    </div>
+</form>
+{% if messages %}
+<ul class="messages my-4">
+    {% for message in messages %}
+    <li{% if message.tags %} class="{{ message.tags }}" {% endif %}>{{ message }}</li>
+        {% endfor %}
+</ul>
+{% endif %}
+<table class="table table-striped">
+    <thead>
+        <tr>
+            <th scope="col">Number</th>
+            <th scope="col">Name</th>
+            <th scope="col">Description</th>
+            <th scope="col">Total Hours</th>
+        </tr>
+    </thead>
+    <tbody>
+        {% for course in courses %}
+        <tr>
+            <td>{{ course.course_number }}</td>
+            <td>{{ course.course_name }}</td>
+            <td>{{ course.course_description }}</td>
+            <td>{{ course.total_hours }}</td>
+            <td><a href="/courses/{{ course.id }}" class="btn btn-warning">Edit</a></td>
+        </tr>
+        {% endfor %}
+    </tbody>
+</table>
+</div>
+{% endblock %}

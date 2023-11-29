@@ -1,0 +1,31 @@
+body,
+html {
+    height: 100vh;
+    display: relative;
+}
+
+#container {
+    min-height: 100vh;
+    position: relative;
+}
+
+.show {
+    display: block;
+}
+
+.hide {
+    display: none;
+}
+
+.requiredClass {
+    color: rgb(154 52 18);
+}
+
+.home-main {
+    background: url("/static/img/home.jpg") no-repeat fixed center;
+}
+
+.logo {
+    width:100px;
+    height: 100px;
+}

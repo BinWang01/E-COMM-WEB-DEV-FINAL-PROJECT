@@ -1,0 +1,45 @@
+{% extends 'base.html' %}
+
+{% block content %}
+<div class="container pt-5">
+<h1 class="display-6 mb-4">College List</h1>
+<a href="/colleges/new" class="btn btn-primary mb-3 me-5">Create College</a>
+<form method="post" action="/colleges/import" enctype="multipart/form-data" class="my-3">
+    {% csrf_token %}
+    <div class="row">
+        <div class="col-10">
+            <input class="form-control" type="file" id="csv_file" name="csv_file" required>
+        </div>
+        <div class="col-2">
+            <button class="btn btn-info mb-3">Import Colleges</button>
+        </div>
+    </div>
+</form>
+{% if messages %}
+<ul class="messages my-4">
+    {% for message in messages %}
+    <li{% if message.tags %} class="{{ message.tags }}" {% endif %}>{{ message }}</li>
+        {% endfor %}
+</ul>
+{% endif %}
+<table class="table table-striped">
+    <thead>
+        <tr>
+            <th scope="col">Name</th>
+            <th scope="col">Website</th>
+            <th scope="col">Description</th>
+        </tr>
+    </thead>
+    <tbody>
+        {% for college in colleges %}
+        <tr>
+            <td>{{ college.college_name }}</td>
+            <td>{{ college.college_website }}</td>
+            <td>{{ college.college_description }}</td>
+            <td><a href="/colleges/{{ college.id }}" class="btn btn-warning">Edit</a></td>
+        </tr>
+        {% endfor %}
+    </tbody>
+</table>
+</div>
+{% endblock %}

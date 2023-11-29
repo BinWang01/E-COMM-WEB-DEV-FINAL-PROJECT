@@ -1,0 +1,47 @@
+{% extends 'base.html' %}
+
+{% block content %}
+<div class="container pt-5">
+<h1 class="display-6 mb-4">Department List</h1>
+<a href="/departments/new" class="btn btn-primary mb-3">Create Department</a>
+<form method="post" action="/departments/import" enctype="multipart/form-data" class="my-3">
+    {% csrf_token %}
+    <div class="row">
+        <div class="col-10">
+            <input class="form-control" type="file" id="csv_file" name="csv_file">
+        </div>
+        <div class="col-2">
+            <button class="btn btn-info mb-3">Import Departments</button>
+        </div>
+    </div>
+</form>
+{% if messages %}
+<ul class="messages my-4">
+    {% for message in messages %}
+    <li{% if message.tags %} class="{{ message.tags }}" {% endif %}>{{ message }}</li>
+        {% endfor %}
+</ul>
+{% endif %}
+<table class="table table-striped">
+    <thead>
+        <tr>
+            <th scope="col">Name</th>
+            <th scope="col">Website</th>
+            <th scope="col">Description</th>
+            <th scope="col">College</th>
+        </tr>
+    </thead>
+    <tbody>
+        {% for department in departments %}
+        <tr>
+            <td>{{ department.department_name }}</td>
+            <td>{{ department.department_website }}</td>
+            <td>{{ department.department_description }}</td>
+            <td>{{ department.college.college_name }}</td>
+            <td><a href="/departments/{{ department.id }}" class="btn btn-warning">Edit</a></td>
+        </tr>
+        {% endfor %}
+    </tbody>
+</table>
+</div>
+{% endblock %}

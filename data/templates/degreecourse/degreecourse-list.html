@@ -1,0 +1,53 @@
+{% extends 'base.html' %}
+
+{% block content %}
+<div class="container pt-5">
+<h1 class="display-6 mb-4">Degree Course List</h1>
+<a href="/degreecourses/new" class="btn btn-primary mb-3">Create DegreeCourse</a>
+<form method="post" action="/degreecourses/import" enctype="multipart/form-data" class="my-3">
+    {% csrf_token %}
+    <div class="row">
+        <div class="col-10">
+            <input class="form-control" type="file" id="csv_file" name="csv_file">
+        </div>
+        <div class="col-2">
+            <button class="btn btn-info mb-3">Import DegreeCourses</button>
+        </div>
+    </div>
+</form>
+{% if messages %}
+<ul class="messages my-4">
+    {% for message in messages %}
+    <li{% if message.tags %} class="{{ message.tags }}" {% endif %}>{{ message }}</li>
+        {% endfor %}
+</ul>
+{% endif %}
+<table class="table table-striped">
+    <thead>
+        <tr>
+            <th scope="col">Fiscal Year</th>
+            <th scope="col">Degree Name</th>
+            <th scope="col">Course Name</th>
+            <th scope="col">Is_Optional</th>
+            <th scope="col">Is_Core</th>
+            <th scope="col">Is_Degree</th>
+            <th scope="col">Is_Major</th>
+        </tr>
+    </thead>
+    <tbody>
+        {% for degreecourse in degreecourses %}
+        <tr>
+            <td>{{ degreecourse.fiscal_year }}</td>
+            <td>{{ degreecourse.degree.area_name }}</td>
+            <td>{{ degreecourse.course.course_name }}</td>
+            <td>{{ degreecourse.is_optional|yesno:"Y,N" }}</td>
+            <td>{{ degreecourse.is_core|yesno:"Y,N" }}</td>
+            <td>{{ degreecourse.is_degree|yesno:"Y,N" }}</td>
+            <td>{{ degreecourse.is_major|yesno:"Y,N" }}</td>
+            <td><a href="/degreecourses/{{ degreecourse.id }}" class="btn btn-warning">Edit</a></td>
+        </tr>
+        {% endfor %}
+    </tbody>
+</table>
+</div>
+{% endblock %}

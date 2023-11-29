@@ -1,0 +1,72 @@
+{% extends 'base.html' %}
+
+{% block content %}
+<div class="container py-5">
+        <h1 class="display-3 my-5 text-center">View Checklists</h1>
+        {% regroup items by fiscal_year as year_list %}
+        {% for year in year_list %}
+        <div class="fiscal_year">
+        <h3 class="display-5 mb-3 text-primary">Fiscal Year: {{ year.grouper }}</h3>
+        {% regroup items by degree as degree_list %}
+        {% for degree in degree_list %}
+        <div class="degree py-3">
+                <h4 class="display-6 mb-5">{{ degree.grouper }} <a class="btn btn-primary ms-3"
+                                href="{% url 'generate_pdf' fiscal_year=year.grouper id=degree.grouper.id %}"
+                                download>Download
+                                PDF</a> <a class="btn btn-primary ms-3"
+                                href="{% url 'generate_csv' fiscal_year=year.grouper id=degree.grouper.id %}">Download
+                                CSV</a>
+                </h4>
+                <ul class=" mb-4">
+                        {% regroup degree.list by is_core as core_list %}
+                        <h4>University Core Requirement</h4>
+                        {% for core in core_list %}
+                        <li class="{% if core.grouper == True %}show{% else %}hide{% endif %}">
+                                <ul>
+                                        {% for course in core.list %}
+                                        <li>{{ course.course.course_number }}: {{ course.course.course_name }}
+                                                <span class="requiredClass">{{ course.is_optional|yesno:",(Required)" }}</span>
+                                        </li>
+                                        {% endfor %}
+                                </ul>
+                        </li>
+                        {% endfor %}
+                </ul>
+                <ul class="mb-4">
+                        {% regroup degree.list by is_degree as deg_list %}
+                        <h4>Degree Requirement</h4>
+                        {% for deg in deg_list %}
+                        <li class="{% if deg.grouper == True %}show{% else %}hide{% endif %}">
+                                <ul>
+                                        {% for course in deg.list %}
+                                        <li>{{ course.course.course_number }}: {{ course.course.course_name }}
+                                                <span class="requiredClass">{{ course.is_optional|yesno:",(Required)" }}</span>
+                                        </li>
+                                        {% endfor %}
+                                </ul>
+                        </li>
+                        {% endfor %}
+                </ul>
+                <ul class="mb-4">
+                        {% regroup degree.list by is_major as major_list %}
+                        <h4>Major Requirement</h4>
+                        {% for major in major_list %}
+                        <li class="{% if major.grouper == True %}show{% else %}hide{% endif %}">
+                                <ul>
+                                        {% for course in major.list %}
+                                        <li>{{ course.course.course_number }}: {{ course.course.course_name }}
+                                                <span class="requiredClass">{{ course.is_optional|yesno:",(Required)" }}</span>
+                                        </li>
+                                        {% endfor %}
+                                </ul>
+                        </li>
+                        {% endfor %}
+                </ul>
+        </div>
+        <hr>
+        {% endfor %}
+        </div>
+        {% endfor %}
+</div>
+
+{% endblock %}

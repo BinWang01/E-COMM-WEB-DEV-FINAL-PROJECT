@@ -1,0 +1,57 @@
+{% extends 'base.html' %}
+
+{% load custom_tags %}
+{% block content %}
+
+{% load static %}
+{% get_media_prefix as MEDIA_PREFIX %}
+<main class="w-100 h-100 d-flex flex-column justify-content-center align-items-center" style="background: url('{{ MEDIA_PREFIX }}img/home.jpg') no-repeat fixed center;">
+        <div class="container my-5">
+                <div class="p-5 text-center rounded-4" style="background:rgb(248, 249, 250,.6)">
+                  <img src="{% static 'img/logo.png' %}" style="display:block;height:100px;width: 100px;margin: 10px auto;">
+                  <h1 class="text-body-emphasis mb-4">University Degree Checklist System</h1>
+                  <p class="col-lg-8 mx-auto fs-5 text-muted mb-4" id="animate">
+                        An easy-to-use system to manage and view degree checklists.
+                  </p>
+                  {% if user.is_authenticated == False %}
+                  <a class="btn btn-lg btn-primary my-4" href="/admin">Sign In</a>
+                  {% endif %}
+                  <a class="btn btn-primary btn-lg px-4 rounded-pill my-3 d-block mx-auto" style="width:200px" href="/view">View Checklists</a>
+                  {% if user.is_authenticated and request.user|has_group:"admingroup" %}
+                  <div class="d-inline-flex gap-2 mt-4">
+                    <a href="/admin" class="btn btn-primary btn-lg px-4 rounded-pill">
+                        Admin
+                    </a>
+                    <a href="/managecontent" class="btn btn-outline-secondary btn-lg px-4 rounded-pill">
+                        Manage Content
+                    </a>
+                  </div>
+                  {% endif %}
+                </div>
+        </div>
+</main>
+
+{% endblock %}
+
+{% block additionalScripts %}
+<script src="https://cdnjs.cloudflare.com/ajax/libs/animejs/2.0.2/anime.min.js"></script>
+<script>
+    var textWrapper = document.querySelector('#animate');
+        textWrapper.innerHTML = textWrapper.textContent.replace(/\S/g, "<span class='letter'>$&</span>");
+
+anime.timeline({loop: true})
+.add({
+targets: '#animate .letter',
+opacity: [0,1],
+easing: "easeInOutQuad",
+duration: 1100,
+delay: (el, i) => 50 * (i+1)
+}).add({
+targets: '#animate',
+opacity: 1,
+duration: 1000,
+easing: "easeOutExpo",
+delay: 500
+});
+</script>
+{% endblock %}

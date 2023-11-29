@@ -1,0 +1,53 @@
+{% extends 'base.html' %}
+
+{% block content %}
+<div class="container pt-5">
+<h1 class="display-6 mb-4">Degree List</h1>
+<a href="/degrees/new" class="btn btn-primary mb-3">Create Degree</a>
+<form method="post" action="/degrees/import" enctype="multipart/form-data" class="my-3">
+    {% csrf_token %}
+    <div class="row">
+        <div class="col-10">
+            <input class="form-control" type="file" id="csv_file" name="csv_file">
+        </div>
+        <div class="col-2">
+            <button class="btn btn-info mb-3">Import Degrees</button>
+        </div>
+    </div>
+</form>
+{% if messages %}
+<ul class="messages my-4">
+    {% for message in messages %}
+    <li{% if message.tags %} class="{{ message.tags }}" {% endif %}>{{ message }}</li>
+        {% endfor %}
+</ul>
+{% endif %}
+<table class="table table-striped">
+    <thead>
+        <tr>
+            <th scope="col">Name</th>
+            <th scope="col">Website</th>
+            <th scope="col">Description</th>
+            <th scope="col">Online</th>
+            <th scope="col">Hours</th>
+            <th scope="col">Department</th>
+            <th scope="col">College</th>
+        </tr>
+    </thead>
+    <tbody>
+        {% for degree in degrees %}
+        <tr>
+            <td>{{ degree.degree_name }}</td>
+            <td>{{ degree.degree_website }}</td>
+            <td>{{ degree.degree_description }}</td>
+            <td>{{ degree.online_degrree|yesno:"Y,N" }}</td>
+            <td>{{ degree.total_hours }}</td>
+            <td>{{ degree.department.department_name }}</td>
+            <td>{{ degree.department.college.college_name }}</td>
+            <td><a href="/degrees/{{ degree.id }}" class="btn btn-warning">Edit</a></td>
+        </tr>
+        {% endfor %}
+    </tbody>
+</table>
+</div>
+{% endblock %}

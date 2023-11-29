@@ -1,0 +1,27 @@
+{% extends 'base.html' %}
+
+{% block content %}
+
+<div class="container mt-5">
+<h2 class="mb-5">
+    {% if instance %}
+    Editing {{ model_type }} <em>{{ instance }}</em>
+    {% else %}
+    New {{ model_type }}
+    {% endif %}
+</h2>
+{% if related_instance and related_model_type %}
+<p>For {{ related_model_type }} <em>{{ related_instance }}</em></p>
+{% endif %}
+
+{% load crispy_forms_tags %}
+
+<form method="post">
+    {% csrf_token %}
+    {{ form|crispy }}
+    <button type="submit" class="btn btn-primary mt-3">
+        {% if instance %}Save{% else %}Create{% endif %}
+    </button>
+</form>
+</div>
+{% endblock %}
