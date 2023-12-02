@@ -555,14 +555,29 @@ def generate_csv(request, fiscal_year, id):
     response = HttpResponse(content_type='text/csv')
     response['Content-Disposition'] = 'attachment; filename="degree_checklist.csv"'
     writer = csv.writer(response)
+    is_core = ""
+    is_degree = ""
+    is_major = ""
     required_course = ""
-    writer.writerow(['Fiscal Year', "Degree", "Course","Required"])
+    writer.writerow(['Fiscal Year', "Degree", "Course", "Is_Core", "Is_Degree", "Is_Major", "Required"])
     for row in data:
+        if row.is_core:
+            is_core = "Yes"
+        else:
+            is_core = "No"
+        if row.is_degree:
+            is_degree = "Yes"
+        else:
+            is_degree = "No"
+        if row.is_major:
+            is_major = "Yes"
+        else:
+            is_major = "No"
         if row.is_optional:
             required_course = "No"
         else:
             required_course = "Yes"
-        writer.writerow([row.fiscal_year, row.degree.degree_name,row.course.course_number+":"+row.course.course_name, required_course])
+        writer.writerow([row.fiscal_year, row.degree.degree_name,row.course.course_number+":"+row.course.course_name, is_core, is_degree, is_major, required_course])
     return response
 
 @login_required
